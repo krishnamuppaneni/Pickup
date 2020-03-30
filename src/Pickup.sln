@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pickup.Api", "Pickup.Api\Pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pickup.Model", "Pickup.Model\Pickup.Model.csproj", "{71CF8ADB-FA33-4098-BF43-4E280449D419}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pickup.Service", "Pickup.Business\Pickup.Service.csproj", "{DFBD0E21-26FF-42D5-B155-3EDC823432B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pickup.Service", "Pickup.Service\Pickup.Service.csproj", "{DFBD0E21-26FF-42D5-B155-3EDC823432B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pickup.Entity", "Pickup.Entity\Pickup.Entity.csproj", "{CEC7E423-0614-4124-A85B-0C1D0A0BFB34}"
 EndProject

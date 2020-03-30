@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pickup.Api.Data;
+using Pickup.Entity.Common;
 
 namespace Pickup
 {
@@ -28,9 +29,12 @@ namespace Pickup
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PickupApiContext>(options => options.UseMySql(Configuration.GetConnectionString("PickupApiContextConnection")));
+            services.AddDbContext<PickupApiContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("PickupApiContextConnection"),
+                    x => x.UseNetTopologySuite()));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<PickupApiContext>();
             services.AddControllers();
         }
