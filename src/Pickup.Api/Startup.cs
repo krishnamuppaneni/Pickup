@@ -23,7 +23,7 @@ namespace Pickup
         {
             services.AddDbContext<PickupApiContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("PickupApiContextConnection"),
+                    Configuration["PickupApiContextConnection"],
                     x => x.UseNetTopologySuite()));
 
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)

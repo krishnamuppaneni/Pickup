@@ -11,17 +11,15 @@ namespace Pickup.Entity
 
         public DeliveryStatus DeliveryStatus { get; set; }
 
-        public int DeliveryLocationId { get; set; }
+        public int? DeliveryLocationId { get; set; }
 
-        public int DriverLocationId { get; set; }
+        public int? DriverLocationId { get; set; }
 
         public int PickupListId { get; set; }
 
         public string DriverUserId { get; set; }
 
         public string DeliveryUserId { get; set; }
-
-        public int ReviewId { get; set; }
 
         [ForeignKey("DeliveryLocationId")]
         public virtual Location DeliveryLocation { get; set; }
@@ -37,9 +35,6 @@ namespace Pickup.Entity
 
         [ForeignKey("DeliveryUserId")]
         public virtual User DeliveryUser { get; set; }
-
-        [ForeignKey("ReviewId")]
-        public virtual Review Review { get; set; }
     }
 
     public enum DeliveryStatus

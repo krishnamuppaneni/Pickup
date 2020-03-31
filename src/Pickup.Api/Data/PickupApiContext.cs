@@ -15,7 +15,10 @@ namespace Pickup.Api.Data
         {
         }
 
+        public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<PickupList> PickupLists { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
