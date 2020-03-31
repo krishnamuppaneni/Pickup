@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Pickup.Entity;
 using Pickup.Entity.Common;
+using System;
+using System.Linq;
 
 namespace Pickup.Api.Data
 {
@@ -26,22 +24,6 @@ namespace Pickup.Api.Data
             builder.Entity<User>(b =>
             {
                 b.ToTable("Users");
-
-                b.HasMany(e => e.Locations)
-                .WithOne(l => l.User)
-                .HasForeignKey(u => u.UserId)
-                .IsRequired();
-
-                b.HasMany(e => e.ReviewsPosted)
-                .WithOne(r => r.FromUser)
-                .HasForeignKey(u => u.FromUserID)
-                .IsRequired();
-
-                b.HasMany(e => e.ReviewsReceived)
-               .WithOne(r => r.ToUser)
-               .HasForeignKey(u => u.ToUserID)
-               .IsRequired();
-
             });
 
             builder.Entity<IdentityUserClaim<string>>(b =>
