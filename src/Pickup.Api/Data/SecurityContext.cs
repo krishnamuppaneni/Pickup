@@ -8,17 +8,12 @@ using System.Linq;
 
 namespace Pickup.Api.Data
 {
-    public class PickupApiContext : IdentityDbContext<User>
+    public class SecurityContext : IdentityDbContext<User>
     {
-        public PickupApiContext(DbContextOptions<PickupApiContext> options)
+        public SecurityContext(DbContextOptions<SecurityContext> options)
             : base(options)
         {
         }
-
-        public DbSet<Delivery> Deliveries { get; set; }
-        public DbSet<Location> Locations { get; set; }
-        public DbSet<PickupList> PickupLists { get; set; }
-        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -58,27 +53,6 @@ namespace Pickup.Api.Data
             {
                 b.ToTable("UserRoles");
             });
-        }
-
-        public override int SaveChanges()
-        {
-            var entries = ChangeTracker
-                .Entries()
-                .Where(e => e.Entity is BaseEntity && (
-                        e.State == EntityState.Added
-                        || e.State == EntityState.Modified));
-
-            foreach (var entityEntry in entries)
-            {
-                ((BaseEntity)entityEntry.Entity).UpdatedDate = DateTime.Now;
-
-                if (entityEntry.State == EntityState.Added)
-                {
-                    ((BaseEntity)entityEntry.Entity).CreatedDate = DateTime.Now;
-                }
-            }
-
-            return base.SaveChanges();
         }
     }
 }

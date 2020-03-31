@@ -10,7 +10,7 @@ namespace Pickup.Api.Helpers
         public static void ConfigureService(IServiceCollection service)
         {
             service.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<PickupApiContext>()
+                .AddEntityFrameworkStores<SecurityContext>()
                 .AddDefaultTokenProviders();
 
             service.Configure<IdentityOptions>(options =>

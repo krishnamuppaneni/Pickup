@@ -5,7 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pickup.Api.Data;
-using Pickup.Entity.Common;
+using Pickup.Api.Helpers;
+using Pickup.Api.Middleware;
+using Pickup.Api.Services;
+using Pickup.Api.Services.Interfaces;
+using Pickup.Api.Settings;
 
 namespace Pickup
 {
@@ -21,13 +25,27 @@ namespace Pickup
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PickupApiContext>(options =>
+            services.AddDbContext<SecurityContext>(options =>
                 options.UseSqlServer(
-                    Configuration["PickupApiContextConnection"],
+                    Configuration["ConnectionStrings:SecurityContextConnection"],
                     x => x.UseNetTopologySuite()));
 
-            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<PickupApiContext>();
+            // Helpers
+            IdentityHelper.ConfigureService(services);
+            AuthenticationHelper.ConfigureService(services, Configuration["JwtSecurityToken:Issuer"], Configuration["JwtSecurityToken:Audience"], Configuration["JwtSecurityToken:Key"]);
+
+            // Settings
+            services.Configure<EmailSettings>(Configuration.GetSection("Email"));
+            services.Configure<ClientAppSettings>(Configuration.GetSection("ClientApp"));
+            services.Configure<JwtSecurityTokenSettings>(Configuration.GetSection("JwtSecurityToken"));
+            services.Configure<QRCodeSettings>(Configuration.GetSection("QRCode"));
+
+            // Services
+            services.AddTransient<IEmailService, EmailService>();
+
+            // Data
+            services.AddDbContextPool<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DataContextConnection"]));
+
             services.AddControllers();
         }
 
@@ -38,6 +56,8 @@ namespace Pickup
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseErrorHandlingMiddleware();
 
             app.UseHttpsRedirection();
 
