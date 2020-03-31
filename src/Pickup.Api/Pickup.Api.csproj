@@ -7,13 +7,9 @@
 
   <ItemGroup>
     <Compile Remove="Areas\**" />
-    <Compile Remove="Pages\**" />
     <Content Remove="Areas\**" />
-    <Content Remove="Pages\**" />
     <EmbeddedResource Remove="Areas\**" />
-    <EmbeddedResource Remove="Pages\**" />
     <None Remove="Areas\**" />
-    <None Remove="Pages\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />

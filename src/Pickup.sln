@@ -5,11 +5,7 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pickup.Api", "Pickup.Api\Pickup.Api.csproj", "{B1494F64-885D-4B30-8113-1D49536E76E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pickup.Model", "Pickup.Model\Pickup.Model.csproj", "{71CF8ADB-FA33-4098-BF43-4E280449D419}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pickup.Service", "Pickup.Service\Pickup.Service.csproj", "{DFBD0E21-26FF-42D5-B155-3EDC823432B8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pickup.Entity", "Pickup.Entity\Pickup.Entity.csproj", "{CEC7E423-0614-4124-A85B-0C1D0A0BFB34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pickup.Entity", "Pickup.Entity\Pickup.Entity.csproj", "{CEC7E423-0614-4124-A85B-0C1D0A0BFB34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +17,6 @@ Global
 		{B1494F64-885D-4B30-8113-1D49536E76E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1494F64-885D-4B30-8113-1D49536E76E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1494F64-885D-4B30-8113-1D49536E76E3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71CF8ADB-FA33-4098-BF43-4E280449D419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71CF8ADB-FA33-4098-BF43-4E280449D419}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71CF8ADB-FA33-4098-BF43-4E280449D419}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71CF8ADB-FA33-4098-BF43-4E280449D419}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFBD0E21-26FF-42D5-B155-3EDC823432B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFBD0E21-26FF-42D5-B155-3EDC823432B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFBD0E21-26FF-42D5-B155-3EDC823432B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFBD0E21-26FF-42D5-B155-3EDC823432B8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CEC7E423-0614-4124-A85B-0C1D0A0BFB34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CEC7E423-0614-4124-A85B-0C1D0A0BFB34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC7E423-0614-4124-A85B-0C1D0A0BFB34}.Release|Any CPU.ActiveCfg = Release|Any CPU
