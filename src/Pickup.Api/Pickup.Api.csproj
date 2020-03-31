@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Identity\**" />
+    <Compile Remove="Areas\**" />
     <Compile Remove="Pages\**" />
-    <Content Remove="Areas\Identity\**" />
+    <Content Remove="Areas\**" />
     <Content Remove="Pages\**" />
-    <EmbeddedResource Remove="Areas\Identity\**" />
+    <EmbeddedResource Remove="Areas\**" />
     <EmbeddedResource Remove="Pages\**" />
-    <None Remove="Areas\Identity\**" />
+    <None Remove="Areas\**" />
     <None Remove="Pages\**" />
   </ItemGroup>
 
@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
 
