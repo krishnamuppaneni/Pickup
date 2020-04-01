@@ -247,14 +247,16 @@ namespace Pickup.Api.Identity.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(IEnumerable<string>), 400)]
         [Route("resendVerificationEmail")]
-        public async Task<IActionResult> ResendVerificationEmail([FromBody]UserModel model)
+        public async Task<IActionResult> ResendVerificationEmail([FromBody]ResendVerificationEmailModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-                return BadRequest(new string[] { "Could not find user!" });
+                return BadRequest(new string[] { "Could not find user." });
+            if(user.EmailConfirmed == true)
+                return BadRequest(new string[] { "Email has already been confirmed." });
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = $"{_client.Url}{_client.EmailConfirmationPath}?uid={user.Id}&code={System.Net.WebUtility.UrlEncode(code)}";
+            var callbackUrl = $"{_client.Url}{_client.EmailConfirmationPath}?userid={user.Id}&code={System.Net.WebUtility.UrlEncode(code)}";
             await _emailService.SendEmailConfirmationAsync(user.Email, callbackUrl);
 
             return Ok();

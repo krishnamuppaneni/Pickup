@@ -46,7 +46,7 @@
             <param name="model">ResetPasswordModel</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Identity.Controllers.AuthController.ResendVerificationEmail(Pickup.Api.Identity.Models.UserModel)">
+        <member name="M:Pickup.Api.Identity.Controllers.AuthController.ResendVerificationEmail(Pickup.Api.Identity.Models.ResendVerificationEmailModel)">
             <summary>
             Resend email verification email with token link
             </summary>

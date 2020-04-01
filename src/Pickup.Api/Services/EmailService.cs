@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Pickup.Api.Services
 {
-    public class EmailService: IEmailService
+    public class EmailService : IEmailService
     {
         private readonly EmailSettings _email;
         private readonly IWebHostEnvironment _env;
@@ -24,77 +24,37 @@ namespace Pickup.Api.Services
 
         public async Task SendAsync(string EmailDisplayName, string Subject, string Body, string From, string To)
         {
-            using var client = new SmtpClient(_email.SMTPServer, _email.Port);
             using var mailMessage = new MailMessage();
-            if (!_email.DefaultCredentials)
-            {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_email.UserName, _email.Password);
-            }
-
             PrepareMailMessage(EmailDisplayName, Subject, Body, From, To, mailMessage);
-
-            await client.SendMailAsync(mailMessage);
+            await Execute(mailMessage);
         }
 
         public async Task SendEmailConfirmationAsync(string EmailAddress, string CallbackUrl)
         {
-            using var client = new SmtpClient(_email.SMTPServer, _email.Port);
             using MailMessage mailMessage = new MailMessage();
-            if (!_email.DefaultCredentials)
-            {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_email.UserName, _email.Password);
-            }
-
             PrepareMailMessage(_email.DisplayName, "Confirm your email", $"Please confirm your email by clicking here: <a href='{CallbackUrl}'>link</a>", _email.From, EmailAddress, mailMessage);
-
-            await client.SendMailAsync(mailMessage);
+            await Execute(mailMessage);
         }
 
         public async Task SendPasswordResetAsync(string EmailAddress, string CallbackUrl)
         {
-            using var client = new SmtpClient(_email.SMTPServer, _email.Port);
             using var mailMessage = new MailMessage();
-            if (!_email.DefaultCredentials)
-            {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_email.UserName, _email.Password);
-            }
-
             PrepareMailMessage(_email.DisplayName, "Reset your password", $"Please reset your password by clicking here: <a href='{CallbackUrl}'>link</a>", _email.From, EmailAddress, mailMessage);
-
-            await client.SendMailAsync(mailMessage);
+            await Execute(mailMessage);
         }
 
         public async Task SendException(Exception ex)
         {
-            using var client = new SmtpClient(_email.SMTPServer, _email.Port);
             using var mailMessage = new MailMessage();
-            if (!_email.DefaultCredentials)
-            {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_email.UserName, _email.Password);
-            }
-
             PrepareMailMessage(_email.DisplayName, $"({_env.EnvironmentName}) INTERNAL SERVER ERROR", $"{ex}", _email.From, _email.To, mailMessage);
-
-            await client.SendMailAsync(mailMessage);
+            await Execute(mailMessage);
         }
 
         public async Task SendSqlException(SqlException ex)
         {
-            using var client = new SmtpClient(_email.SMTPServer, _email.Port);
             using var mailMessage = new MailMessage();
-            if (!_email.DefaultCredentials)
-            {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_email.UserName, _email.Password);
-            }
-
             PrepareMailMessage(_email.DisplayName, $"({_env.EnvironmentName}) SQL ERROR", $"{ex}", _email.From, _email.To, mailMessage);
-
-            await client.SendMailAsync(mailMessage);
+            await Execute(mailMessage);
         }
 
         private void PrepareMailMessage(string EmailDisplayName, string Subject, string Body, string From, string To, MailMessage mailMessage)
@@ -104,6 +64,22 @@ namespace Pickup.Api.Services
             mailMessage.Body = Body;
             mailMessage.IsBodyHtml = true;
             mailMessage.Subject = Subject;
+        }
+
+        public async Task Execute(MailMessage mailMessage)
+        {
+
+            using SmtpClient client = new SmtpClient(_email.SMTPServer, _email.Port);
+            if (!_email.DefaultCredentials)
+            {
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(_email.UserName, _email.Password);
+            }
+#if !DEBUG
+            await client.SendMailAsync(mailMessage);
+#else
+            await Task.CompletedTask;
+#endif
         }
     }
 }
