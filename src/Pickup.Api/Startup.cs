@@ -27,12 +27,12 @@ namespace Pickup
         {
             services.AddDbContext<SecurityContext>(options =>
                 options.UseSqlServer(
-                    Configuration["ConnectionStrings:SecurityContextConnection"],
-                    x => x.UseNetTopologySuite()));
+                    Configuration["ConnectionStrings:SecurityContextConnection"]));
 
             // Helpers
             IdentityHelper.ConfigureService(services);
             AuthenticationHelper.ConfigureService(services, Configuration["JwtSecurityToken:Issuer"], Configuration["JwtSecurityToken:Audience"], Configuration["JwtSecurityToken:Key"]);
+            SwaggerHelper.ConfigureService(services);
 
             // Settings
             services.Configure<EmailSettings>(Configuration.GetSection("Email"));
@@ -44,7 +44,7 @@ namespace Pickup
             services.AddTransient<IEmailService, EmailService>();
 
             // Data
-            services.AddDbContextPool<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DataContextConnection"]));
+            services.AddDbContextPool<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DataContextConnection"], x => x.UseNetTopologySuite()));
 
             services.AddControllers();
         }
@@ -56,8 +56,10 @@ namespace Pickup
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseErrorHandlingMiddleware();
+            else
+            {
+                app.UseErrorHandlingMiddleware();
+            }
 
             app.UseHttpsRedirection();
 
@@ -67,6 +69,13 @@ namespace Pickup
 
             app.UseAuthorization();
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API V1");
+                c.RoutePrefix = "";
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

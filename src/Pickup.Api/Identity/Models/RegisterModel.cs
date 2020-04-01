@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pickup.Api.Identity.Models
 {
     public class RegisterModel
     {
-        public string UserName { get; set; }
-
         [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
@@ -19,5 +18,19 @@ namespace Pickup.Api.Identity.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [StringLength(25, ErrorMessage = "The {0} cannot exceed {1} characters.")]
+        [DataType(DataType.Text)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(25, ErrorMessage = "The {0} cannot exceed {1} characters.")]
+        [DataType(DataType.Text)]
+        public string LastName { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime BirthDate { get; set; }
     }
 }

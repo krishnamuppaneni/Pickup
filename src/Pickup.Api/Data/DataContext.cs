@@ -28,7 +28,7 @@ namespace Pickup.Api.Data
 
             foreach (var entityEntry in entries)
             {
-                ((BaseEntity)entityEntry.Entity).UpdatedDate = DateTime.Now;
+                ((BaseEntity)entityEntry.Entity).ModifiedDate = DateTime.Now;
 
                 if (entityEntry.State == EntityState.Added)
                 {

@@ -39,7 +39,12 @@ namespace Pickup.Api.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 25, nullable: false),
+                    LastName = table.Column<string>(maxLength: 25, nullable: false),
+                    Gender = table.Column<int>(nullable: true),
+                    BirthDate = table.Column<DateTime>(nullable: false),
+                    RegistrationTime = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {

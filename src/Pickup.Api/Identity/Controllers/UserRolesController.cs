@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Pickup.Api.Identity.Models;
+using Pickup.Entity;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Pickup.Api.Identity.Models;
 
 namespace Pickup.Api.Identity.Controllers
 {
@@ -12,11 +12,11 @@ namespace Pickup.Api.Identity.Controllers
     [Route("api/userRoles")]
     public class UserRolesController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public UserRolesController(
-            UserManager<IdentityUser> userManager,
+            UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager
             )
         {
@@ -34,7 +34,7 @@ namespace Pickup.Api.Identity.Controllers
         [Route("get/{Id}")]
         public async Task<IActionResult> Get(string Id)
         {
-            IdentityUser user = await _userManager.FindByIdAsync(Id);
+            User user = await _userManager.FindByIdAsync(Id);
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
@@ -52,7 +52,7 @@ namespace Pickup.Api.Identity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
 
-            IdentityUser user = await _userManager.FindByIdAsync(model.Id);
+            User user = await _userManager.FindByIdAsync(model.Id);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -83,7 +83,7 @@ namespace Pickup.Api.Identity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
 
-            IdentityUser user = await _userManager.FindByIdAsync(Id);
+            User user = await _userManager.FindByIdAsync(Id);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 

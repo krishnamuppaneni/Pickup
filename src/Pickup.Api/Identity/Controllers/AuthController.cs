@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using Pickup.Api.Identity.Models;
 using Pickup.Api.Services.Interfaces;
 using Pickup.Api.Settings;
+using Pickup.Entity;
 
 namespace Pickup.Api.Identity.Controllers
 {
@@ -21,13 +22,13 @@ namespace Pickup.Api.Identity.Controllers
     [Route("api/auth")]
     public class AuthController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IEmailService _emailService;
         private readonly ClientAppSettings _client;
         private readonly JwtSecurityTokenSettings _jwt;
 
         public AuthController(
-            UserManager<IdentityUser> userManager,
+            UserManager<User> userManager,
             IEmailService emailService,
             IOptions<ClientAppSettings> client,
             IOptions<JwtSecurityTokenSettings> jwt
@@ -42,7 +43,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Confirms a user email address
         /// </summary>
-        /// <param name="model">ConfirmEmailViewModel</param>
+        /// <param name="model">ConfirmEmailModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(IdentityResult), 200)]
@@ -70,7 +71,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Register an account
         /// </summary>
-        /// <param name="model">RegisterViewModel</param>
+        /// <param name="model">RegisterModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(IdentityResult), 200)]
@@ -81,7 +82,8 @@ namespace Pickup.Api.Identity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
 
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var user = new User { UserName = model.Email, Email = model.Email, 
+                FirstName = model.FirstName, LastName = model.LastName, BirthDate = model.BirthDate };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
@@ -100,7 +102,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Log into account
         /// </summary>
-        /// <param name="model">LoginViewModel</param>
+        /// <param name="model">LoginModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(TokenModel), 200)]
@@ -152,7 +154,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Log in with TFA 
         /// </summary>
-        /// <param name="model">LoginWith2faViewModel</param>
+        /// <param name="model">LoginWith2faModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(TokenModel), 200)]
@@ -186,7 +188,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Forgot email sends an email with a link containing reset token
         /// </summary>
-        /// <param name="model">ForgotPasswordViewModel</param>
+        /// <param name="model">ForgotPasswordModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(200)]
@@ -212,7 +214,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Reset account password with reset token
         /// </summary>
-        /// <param name="model">ResetPasswordViewModel</param>
+        /// <param name="model">ResetPasswordModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(IdentityResult), 200)]
@@ -258,7 +260,7 @@ namespace Pickup.Api.Identity.Controllers
             return Ok();
         }
 
-        private async Task<JwtSecurityToken> CreateJwtToken(IdentityUser user)
+        private async Task<JwtSecurityToken> CreateJwtToken(User user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);

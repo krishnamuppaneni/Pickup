@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Pickup.Api.Identity.Models;
+using Pickup.Entity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Pickup.Api.Identity.Models;
 
 namespace Pickup.Api.Identity.Controllers
 {
@@ -14,11 +15,11 @@ namespace Pickup.Api.Identity.Controllers
     [Route("api/user")]
     public class UserController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public UserController(
-            UserManager<IdentityUser> userManager,
+            UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager
             )
         {
@@ -31,7 +32,7 @@ namespace Pickup.Api.Identity.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<IdentityUser>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<User>), 200)]
         [Route("get")]
         public IActionResult Get() => Ok(_userManager.Users);
 
@@ -41,7 +42,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IdentityUser), 200)]
+        [ProducesResponseType(typeof(User), 200)]
         [ProducesResponseType(typeof(IEnumerable<string>), 400)]
         [Route("get/{Id}")]
         public IActionResult Get(string Id)
@@ -66,7 +67,7 @@ namespace Pickup.Api.Identity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
 
-            IdentityUser user = new IdentityUser
+            User user = new User
             {
                 UserName = model.UserName,
                 Email = model.Email,
@@ -105,7 +106,7 @@ namespace Pickup.Api.Identity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
 
-            IdentityUser user = await _userManager.FindByIdAsync(Id);
+            User user = await _userManager.FindByIdAsync(Id);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -139,7 +140,7 @@ namespace Pickup.Api.Identity.Controllers
             if (!String.IsNullOrEmpty(Id))
                 return BadRequest(new string[] { "Empty parameter!" });
 
-            IdentityUser user = await _userManager.FindByIdAsync(Id);
+            User user = await _userManager.FindByIdAsync(Id);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 

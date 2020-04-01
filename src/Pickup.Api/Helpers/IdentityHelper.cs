@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Pickup.Api.Data;
+using Pickup.Entity;
 using System;
 
 namespace Pickup.Api.Helpers
@@ -9,7 +10,7 @@ namespace Pickup.Api.Helpers
     {
         public static void ConfigureService(IServiceCollection service)
         {
-            service.AddIdentity<IdentityUser, IdentityRole>()
+            service.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<SecurityContext>()
                 .AddDefaultTokenProviders();
 

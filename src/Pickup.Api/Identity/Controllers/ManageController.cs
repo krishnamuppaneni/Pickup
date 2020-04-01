@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Pickup.Api.Services.Interfaces;
 using Pickup.Api.Settings;
 using Pickup.Api.Identity.Models;
+using Pickup.Entity;
 
 namespace Pickup.Api.Identity.Controllers
 {
@@ -18,7 +19,7 @@ namespace Pickup.Api.Identity.Controllers
     [Route("api/manage")]
     public class ManageController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly UrlEncoder _urlEncoder;
         private readonly IEmailService _emailService;
         private readonly ClientAppSettings _client;
@@ -27,7 +28,7 @@ namespace Pickup.Api.Identity.Controllers
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public ManageController(
-            UserManager<IdentityUser> userManager,
+            UserManager<User> userManager,
             UrlEncoder urlEncoder,
             IEmailService emailService,
             IOptions<ClientAppSettings> client,
@@ -111,7 +112,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Change password for authenticated user
         /// </summary>
-        /// <param name="model">ChangePasswordViewModel</param>
+        /// <param name="model">ChangePasswordModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(IdentityResult), 200)]
@@ -126,7 +127,7 @@ namespace Pickup.Api.Identity.Controllers
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
-            var passwordValidator = new PasswordValidator<IdentityUser>();
+            var passwordValidator = new PasswordValidator<User>();
             var result = await passwordValidator.ValidateAsync(_userManager, null, model.NewPassword);
 
             if (result.Succeeded)
@@ -168,7 +169,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Set a password if the user doesn't have one already
         /// </summary>
-        /// <param name="model">SetPasswordViewModel</param>
+        /// <param name="model">SetPasswordModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(IdentityResult), 200)]
@@ -215,7 +216,7 @@ namespace Pickup.Api.Identity.Controllers
         /// <summary>
         /// Enable TFA (requires QR code)
         /// </summary>
-        /// <param name="model">EnableAuthenticatorViewModel</param>
+        /// <param name="model">EnableAuthenticatorModel</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<string>), 200)]
@@ -261,7 +262,7 @@ namespace Pickup.Api.Identity.Controllers
         //        return RedirectToAction(nameof(TwoFactorAuthentication));
         //    }
 
-        //    var model = new ShowRecoveryCodesViewModel { RecoveryCodes = recoveryCodes };
+        //    var model = new ShowRecoveryCodesModel { RecoveryCodes = recoveryCodes };
         //    return View(model);
         //}
 
@@ -335,7 +336,7 @@ namespace Pickup.Api.Identity.Controllers
                 unformattedKey);
         }
 
-        private async Task LoadSharedKeyAndQrCodeUriAsync(IdentityUser user, EnableAuthenticatorModel model)
+        private async Task LoadSharedKeyAndQrCodeUriAsync(User user, EnableAuthenticatorModel model)
         {
             var unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
             if (string.IsNullOrEmpty(unformattedKey))
