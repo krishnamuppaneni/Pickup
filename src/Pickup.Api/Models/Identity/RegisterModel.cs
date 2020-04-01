@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Pickup.Api.Identity.Models
+namespace Pickup.Api.Models.Identity
 {
     public class RegisterModel
     {

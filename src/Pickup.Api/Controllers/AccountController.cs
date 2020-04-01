@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Pickup.Api.Identity.Models;
+using Pickup.Api.Models.Identity;
 using Pickup.Entity;
 using System.Linq;
 using System.Threading.Tasks;

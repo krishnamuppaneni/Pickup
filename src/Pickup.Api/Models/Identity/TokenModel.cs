@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pickup.Api.Identity.Models
+namespace Pickup.Api.Models.Identity
 {
     public class TokenModel
     {

@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Pickup.Api.Identity.Models
+namespace Pickup.Api.Models.Identity
 {
-    public class SetPasswordModel
+    public class ChangePasswordModel
     {
+        [Required]
+        [DataType(DataType.Password)]
+        public string OldPassword { get; set; }
+
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]

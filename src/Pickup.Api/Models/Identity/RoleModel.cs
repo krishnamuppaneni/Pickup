@@ -1,4 +1,4 @@
-﻿namespace Pickup.Api.Identity.Models
+﻿namespace Pickup.Api.Models.Identity
 {
     public class RoleModel
     {

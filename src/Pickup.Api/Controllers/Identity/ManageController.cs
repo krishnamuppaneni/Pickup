@@ -9,10 +9,10 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using Pickup.Api.Services.Interfaces;
 using Pickup.Api.Settings;
-using Pickup.Api.Identity.Models;
+using Pickup.Api.Models.Identity;
 using Pickup.Entity;
 
-namespace Pickup.Api.Identity.Controllers
+namespace Pickup.Api.Controllers.Identity
 {
     [Authorize]
     [Produces("application/json")]

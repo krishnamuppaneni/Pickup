@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Pickup.Api.Identity.Models;
+using Pickup.Api.Models.Identity;
 using Pickup.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Pickup.Api.Identity.Controllers
+namespace Pickup.Api.Controllers.Identity
 {
     [Authorize]
     [Produces("application/json")]

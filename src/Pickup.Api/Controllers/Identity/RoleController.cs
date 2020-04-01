@@ -5,9 +5,9 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using Pickup.Api.Identity.Models;
+using Pickup.Api.Models.Identity;
 
-namespace Pickup.Api.Identity.Controllers
+namespace Pickup.Api.Controllers.Identity
 {
     [Authorize]
     [Produces("application/json")]
