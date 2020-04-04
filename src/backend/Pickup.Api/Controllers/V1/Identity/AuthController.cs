@@ -48,12 +48,12 @@ namespace Pickup.Api.Controllers.V1.Identity
             if (user == null)
                 return BadRequest(ErrorHelper.CreateErrorRespose("Invalid confirmation code."));
 
-            var response = await _authService.ConfirmEmailAsync(user, request.Code);
+            var result = await _authService.ConfirmEmailAsync(user, request.Code);
 
-            if (response.Succeeded)
+            if (result.Succeeded)
                 return Ok();
 
-            return BadRequest(ErrorHelper.CreateErrorRespose(response));
+            return BadRequest(ErrorHelper.CreateErrorRespose(result.Errors));
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Pickup.Api.Controllers.V1.Identity
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(TokenResponse), 200)]
-        [ProducesResponseType(typeof(IEnumerable<string>), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         [Route("login")]
         public async Task<IActionResult> LoginAsync([FromBody]LoginRequest request)
         {
@@ -106,133 +106,122 @@ namespace Pickup.Api.Controllers.V1.Identity
             return BadRequest(ErrorHelper.CreateErrorRespose(result.Errors));
         }
 
-       
-
-        /*
-        /// <summary>
-        /// Register an account
-        /// </summary>
-        /// <param name="model">RegisterRequest</param>
-        /// <returns></returns>
-        [HttpPost]
-        [ProducesResponseType(typeof(IdentityResult), 200)]
-        [ProducesResponseType(typeof(IEnumerable<string>), 400)]
-        [Route("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterRequest model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
-
-            var user = new User
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                BirthDate = model.BirthDate
-            };
-
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackUrl = $"{_client.Url}{_client.EmailConfirmationPath}?uid={user.Id}&code={System.Net.WebUtility.UrlEncode(code)}";
-
-                await _emailService.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-                return Ok();
-            }
-
-            return BadRequest(result.Errors.Select(x => x.Description));
-        }
-       
-
         /// <summary>
         /// Log in with TFA 
         /// </summary>
-        /// <param name="model">LoginWith2faRequest</param>
+        /// <param name="request">LoginWith2faRequest</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(TokenResponse), 200)]
-        [ProducesResponseType(typeof(IEnumerable<string>), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         [Route("tfa")]
-        public async Task<IActionResult> LoginWith2fa([FromBody]LoginWith2faRequest model)
+        public async Task<IActionResult> LoginWith2faAsync([FromBody]LoginWith2faRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userService.FindByEmailAsync(request.Email);
             if (user == null)
-                return BadRequest(new string[] { "Invalid credentials." });
+                return BadRequest(ErrorHelper.CreateErrorRespose("Invalid credentials."));
 
-            if (await _userManager.VerifyTwoFactorTokenAsync(user, "Authenticator", model.TwoFactorCode))
+            AuthenticationResult result = await _authService.LoginWith2FaAsync(user, request.TwoFactorCode);
+            if (result.Success)
             {
-                JwtSecurityToken jwtSecurityToken = await CreateJwtToken(user);
-
-                var TokenResponse = new TokenResponse()
+                TokenResponse response = new TokenResponse()
                 {
-                    HasVerifiedEmail = true,
-                    TFAEnabled = false,
-                    Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken)
+                    HasVerifiedEmail = result.HasVerifiedEmail,
+                    TFAEnabled = result.TwoFactorEnabled,
+                    Token = result.Token,
+                    RefreshToken = result.RefreshToken
                 };
 
-                return Ok(TokenResponse);
+                return Ok(response);
             }
-            return BadRequest(new string[] { "Unable to verify Authenticator Code!" });
-        }        
+
+            return BadRequest(ErrorHelper.CreateErrorRespose(result.Errors));
+        }
 
         /// <summary>
-        /// Reset account password with reset token
+        /// Register an account
         /// </summary>
-        /// <param name="model">ReSetPasswordRequest</param>
+        /// <param name="request">RegisterRequest</param>
         /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(typeof(IdentityResult), 200)]
-        [ProducesResponseType(typeof(IEnumerable<string>), 400)]
-        [Route("resetPassword")]
-        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordRequest model)
+        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [Route("register")]
+        public async Task<IActionResult> RegisterAsync([FromBody]RegisterRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
 
-            var user = await _userManager.FindByIdAsync(model.UserId);
-            if (user == null)
+            var user = new User
             {
-                // Don't reveal that the user does not exist
-                return BadRequest(new string[] { "Invalid credentials." });
-            }
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
-            if (result.Succeeded)
+                UserName = request.Email,
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                BirthDate = request.BirthDate
+            };
+
+            var result = await _authService.RegisterAsync(user, request.Password);
+
+            if (result.Success)
             {
-                return Ok(result);
+                TokenResponse response = new TokenResponse()
+                {
+                    HasVerifiedEmail = result.HasVerifiedEmail,
+                    TFAEnabled = result.TwoFactorEnabled,
+                    Token = result.Token,
+                    RefreshToken = result.RefreshToken
+                };
+                return Ok(response);
             }
-            return BadRequest(result.Errors.Select(x => x.Description));
+
+            return BadRequest(ErrorHelper.CreateErrorRespose(result.Errors));
         }
 
         /// <summary>
         /// Resend email verification email with token link
         /// </summary>
+        /// <param name="request">ResendVerificationEmailRequest</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(IEnumerable<string>), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         [Route("resendVerificationEmail")]
-        public async Task<IActionResult> ResendVerificationEmail([FromBody]ResendVerificationEmailRequest model)
+        public async Task<IActionResult> ResendVerificationEmailAsync([FromBody]ResendVerificationEmailRequest request)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userService.FindByEmailAsync(request.Email);
             if (user == null)
-                return BadRequest(new string[] { "Could not find user." });
+                return Ok();
             if (user.EmailConfirmed == true)
-                return BadRequest(new string[] { "Email has already been confirmed." });
+                return BadRequest(ErrorHelper.CreateErrorRespose("Email has already been confirmed."));
 
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = $"{_client.Url}{_client.EmailConfirmationPath}?userid={user.Id}&code={System.Net.WebUtility.UrlEncode(code)}";
-            await _emailService.SendEmailConfirmationAsync(user.Email, callbackUrl);
+            await _authService.ResendVerificationEmailAsync(user);
 
             return Ok();
         }
 
-        */
+        /// <summary>
+        /// Reset account password with reset token
+        /// </summary>
+        /// <param name="request">ReSetPasswordRequest</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(IdentityResult), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [Route("resetPassword")]
+        public async Task<IActionResult> ResetPasswordAsync([FromBody]ResetPasswordRequest request)
+        {
+            var user = await _userService.FindByIdAsync(request.UserId);
+            if (user == null)
+            {
+                return BadRequest(ErrorHelper.CreateErrorRespose("Invalid credentials."));
+            }
+            IdentityResult result = await _authService.ResetPasswordAsync(user, request.Code, request.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest(ErrorHelper.CreateErrorRespose(result.Errors));
+        }
     }
 }

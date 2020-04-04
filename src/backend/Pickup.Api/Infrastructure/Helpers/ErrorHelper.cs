@@ -22,9 +22,9 @@ namespace Pickup.Api.Infrastructure.Helpers
             }).ToList());
         }
 
-        public static ErrorResponse CreateErrorRespose(IdentityResult identityResult)
+        public static ErrorResponse CreateErrorRespose(IEnumerable<IdentityError> errors)
         {
-            return CreateErrorRespose(identityResult.Errors.Select(e => e.Description));
+            return CreateErrorRespose(errors.Select(e => e.Description));
         }
     }
 }
