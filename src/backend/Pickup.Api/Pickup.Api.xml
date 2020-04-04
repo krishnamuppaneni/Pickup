@@ -4,132 +4,105 @@
         <name>Pickup.Api</name>
     </assembly>
     <members>
-        <member name="M:Pickup.Api.Controllers.Identity.AuthController.ConfirmEmail(Pickup.Api.Models.Identity.ConfirmEmailModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.ConfirmEmailAsync(Pickup.Core.Models.V1.Request.Identity.ConfirmEmailRequest)">
             <summary>
             Confirms a user email address
             </summary>
-            <param name="model">ConfirmEmailModel</param>
+            <param name="request">ConfirmEmailRequest</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.AuthController.Register(Pickup.Api.Models.Identity.RegisterModel)">
-            <summary>
-            Register an account
-            </summary>
-            <param name="model">RegisterModel</param>
-            <returns></returns>
-        </member>
-        <member name="M:Pickup.Api.Controllers.Identity.AuthController.CreateToken(Pickup.Api.Models.Identity.LoginModel)">
-            <summary>
-            Log into account
-            </summary>
-            <param name="model">LoginModel</param>
-            <returns></returns>
-        </member>
-        <member name="M:Pickup.Api.Controllers.Identity.AuthController.LoginWith2fa(Pickup.Api.Models.Identity.LoginWith2faModel)">
-            <summary>
-            Log in with TFA 
-            </summary>
-            <param name="model">LoginWith2faModel</param>
-            <returns></returns>
-        </member>
-        <member name="M:Pickup.Api.Controllers.Identity.AuthController.ForgotPassword(Pickup.Api.Models.Identity.ForgotPasswordModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.ForgotPasswordAsync(Pickup.Core.Models.V1.Request.Identity.ForgotPasswordRequest)">
             <summary>
             Forgot email sends an email with a link containing reset token
             </summary>
-            <param name="model">ForgotPasswordModel</param>
+            <param name="request">ForgotPasswordRequest</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.AuthController.ResetPassword(Pickup.Api.Models.Identity.ResetPasswordModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.LoginAsync(Pickup.Core.Models.V1.Request.Identity.LoginRequest)">
             <summary>
-            Reset account password with reset token
+            Log into account
             </summary>
-            <param name="model">ResetPasswordModel</param>
+            <param name="request">LoginRequest</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.AuthController.ResendVerificationEmail(Pickup.Api.Models.Identity.ResendVerificationEmailModel)">
-            <summary>
-            Resend email verification email with token link
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.UserInfo">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.UserInfo">
             <summary>
             Get user information
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.TwoFactorAuthentication">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.TwoFactorAuthentication">
             <summary>
             Get TFA stats
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.EnableAuthenticator">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.EnableAuthenticator">
             <summary>
             https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-enable-qrcodes
             http://jakeydocs.readthedocs.io/en/latest/security/authentication/2fa.html#log-in-with-two-factor-authentication
             </summary>
             <returns>QR Code</returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.ChangePassword(Pickup.Api.Models.Identity.ChangePasswordModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.ChangePassword(Pickup.Core.Models.V1.Request.Identity.ChangePasswordRequest)">
             <summary>
             Change password for authenticated user
             </summary>
-            <param name="model">ChangePasswordModel</param>
+            <param name="model">ChangePasswordRequest</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.SendVerificationEmail">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.SendVerificationEmail">
             <summary>
             Send email verification email
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.SetPassword(Pickup.Api.Models.Identity.SetPasswordModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.SetPassword(Pickup.Core.Models.V1.Request.Identity.SetPasswordRequest)">
             <summary>
             Set a password if the user doesn't have one already
             </summary>
-            <param name="model">SetPasswordModel</param>
+            <param name="model">SetPasswordRequest</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.Disable2fa">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.Disable2fa">
             <summary>
             Disable TFA
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.EnableAuthenticator(Pickup.Api.Models.Identity.EnableAuthenticatorModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.EnableAuthenticator(Pickup.Core.Models.V1.Response.Identity.EnableAuthenticatorResponse)">
             <summary>
             Enable TFA (requires QR code)
             </summary>
-            <param name="model">EnableAuthenticatorModel</param>
+            <param name="model">EnableAuthenticatorResponse</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.ResetAuthenticator">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.ResetAuthenticator">
             <summary>
             Reset TFA (This will reset and disable TFA)
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.ManageController.GenerateRecoveryCodes">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.GenerateRecoveryCodes">
             <summary>
             Generate new recovery codes (This will invalidate previous codes)
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.RoleController.Get">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.RoleController.Get">
             <summary>
             Get all roles
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.RoleController.Post(Pickup.Api.Models.Identity.RoleModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.RoleController.Post(Pickup.Core.Models.V1.Request.Identity.RoleRequest)">
             <summary>
             Insert a role
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.RoleController.Put(System.Int32,Pickup.Api.Models.Identity.RoleModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.RoleController.Put(System.Int32,Pickup.Core.Models.V1.Request.Identity.RoleRequest)">
             <summary>
             Update a role
             </summary>
@@ -137,34 +110,34 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.RoleController.Delete(System.String)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.RoleController.Delete(System.String)">
             <summary>
             Delete a role
             </summary>
             <param name="Id"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.UserController.Get">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.UserController.Get">
             <summary>
             Get all users
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.UserController.Get(System.String)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.UserController.Get(System.String)">
             <summary>
             Get a user
             </summary>
             <param name="Id"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.UserController.Post(Pickup.Api.Models.Identity.UserModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.UserController.Post(Pickup.Core.Models.V1.Request.Identity.CreateUserRequest)">
             <summary>
             Insert a user with an existing role
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.UserController.Put(System.String,Pickup.Api.Models.Identity.EditUserModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.UserController.Put(System.String,Pickup.Core.Models.V1.Request.Identity.EditUserRequest)">
             <summary>
             Update a user
             </summary>
@@ -172,28 +145,28 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.UserController.Delete(System.String)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.UserController.Delete(System.String)">
             <summary>
             Delete a user (Will also delete link to roles)
             </summary>
             <param name="Id"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.UserRolesController.Get(System.String)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.UserRolesController.Get(System.String)">
             <summary>
             Get a user roles
             </summary>
             <param name="Id"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.UserRolesController.Post(Pickup.Api.Models.Identity.UserModel)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.UserRolesController.Post(Pickup.Core.Models.V1.Request.Identity.CreateUserRequest)">
             <summary>
             Add a user to existing role
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.Identity.UserRolesController.Delete(System.String,System.String)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.UserRolesController.Delete(System.String,System.String)">
             <summary>
             Delete a user from an existing role
             </summary>

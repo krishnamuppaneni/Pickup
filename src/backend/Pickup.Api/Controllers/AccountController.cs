@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Pickup.Api.Models.Identity;
-using Pickup.Entity;
+using Pickup.Core.Models.V1.Request.Identity;
+using Pickup.Data.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +19,7 @@ namespace Pickup.Api.Controllers
 
         [HttpGet]
         [Route("confirmEmail")]
-        public async Task<IActionResult> ConfirmEmail([FromQuery]ConfirmEmailModel model)
+        public async Task<IActionResult> ConfirmEmail([FromQuery]ConfirmEmailRequest model)
         {
 
             if (model.UserId == null || model.Code == null)

@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Pickup.Api.Data;
-using Pickup.Api.Helpers;
-using Pickup.Api.Middleware;
+using Pickup.Api.Infrastructure.Filters;
+using Pickup.Api.Infrastructure.Installers;
+using Pickup.Api.Infrastructure.Middleware;
 using Pickup.Api.Services;
-using Pickup.Api.Services.Interfaces;
 using Pickup.Api.Settings;
+using Pickup.Data;
 
 namespace Pickup
 {
@@ -29,10 +29,17 @@ namespace Pickup
                 options.UseSqlServer(
                     Configuration["ConnectionStrings:SecurityContextConnection"]));
 
+            services.AddMvc(options =>
+                {
+                    options.EnableEndpointRouting = false;
+                    options.Filters.Add<ValidationFilter>();
+                })
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+
             // Helpers
-            IdentityHelper.ConfigureService(services);
-            AuthenticationHelper.ConfigureService(services, Configuration["JwtSecurityToken:Issuer"], Configuration["JwtSecurityToken:Audience"], Configuration["JwtSecurityToken:Key"]);
-            SwaggerHelper.ConfigureService(services);
+            IdentityInstaller.ConfigureService(services);
+            AuthenticationInstaller.ConfigureService(services, Configuration);
+            SwaggerInstaller.ConfigureService(services);
 
             // Settings
             services.Configure<EmailSettings>(Configuration.GetSection("Email"));

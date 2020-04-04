@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
-using Pickup.Api.Services.Interfaces;
 using Pickup.Api.Settings;
 using System;
 using System.Net;
