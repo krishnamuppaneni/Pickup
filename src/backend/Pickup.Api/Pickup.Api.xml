@@ -39,14 +39,14 @@
             <param name="request">RegisterRequest</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.ResendVerificationEmail(Pickup.Core.Models.V1.Request.Identity.ResendVerificationEmailRequest)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.ResendVerificationEmailAsync(Pickup.Core.Models.V1.Request.Identity.ResendVerificationEmailRequest)">
             <summary>
             Resend email verification email with token link
             </summary>
             <param name="request">ResendVerificationEmailRequest</param>
             <returns></returns>
         </member>
-        <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.ResetPassword(Pickup.Core.Models.V1.Request.Identity.ResetPasswordRequest)">
+        <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.ResetPasswordAsync(Pickup.Core.Models.V1.Request.Identity.ResetPasswordRequest)">
             <summary>
             Reset account password with reset token
             </summary>
