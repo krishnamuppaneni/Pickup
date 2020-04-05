@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Pickup.Mobile.Views.WelcomePage"
+             BackgroundColor="#364960"
+             Visual="Material">
+    <ContentPage.Content>
+        <Grid Margin="20,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Text="Pickup" TextColor="White" HorizontalOptions="Center" 
+                   VerticalOptions="Center"
+                   FontSize="50" />
+            <Grid Grid.Row="1" 
+                  VerticalOptions="EndAndExpand"
+                  Margin="0,0,0,80">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Button Text="Sign Up" FontAttributes="Bold" BackgroundColor="#52C4B9"/>
+                <Button Text="I Already Have An Account" Grid.Row="1" />
+            </Grid>
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>
