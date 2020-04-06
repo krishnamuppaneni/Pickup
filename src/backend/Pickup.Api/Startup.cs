@@ -49,6 +49,8 @@ namespace Pickup
 
             // Services
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IUserService, UserService>();
 
             // Data
             services.AddDbContextPool<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DataContextConnection"], x => x.UseNetTopologySuite()));

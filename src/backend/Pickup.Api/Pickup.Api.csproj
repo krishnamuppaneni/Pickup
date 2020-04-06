@@ -6,6 +6,7 @@
     <Authors>Krishna Chaitanya Muppaneni</Authors>
     <Company>Techcryptic</Company>
     <Product>Pickup</Product>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

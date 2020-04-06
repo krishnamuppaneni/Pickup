@@ -10,12 +10,12 @@
     <ContentPage.Content>
         <Grid Margin="20,50">
             <StackLayout Orientation="Vertical">
-                <Entry Placeholder="Email"/>
+                <Entry Placeholder="Email" Text="{Binding RegisterRequest.Email}"/>
                 <Entry Placeholder="First Name"/>
                 <Entry Placeholder="Last Name"/>
                 <Entry Placeholder="Password" IsPassword="True"/>
                 <Entry Placeholder="Birthdate"/>
-                <Button Text="Register" BackgroundColor="#52C4B9" HeightRequest="50" VerticalOptions="EndAndExpand"/>
+                <Button Text="Register" Command="{Binding Register}" BackgroundColor="#52C4B9" HeightRequest="50" VerticalOptions="EndAndExpand"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

@@ -1,17 +1,23 @@
-﻿using Pickup.Mobile.Views;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using System.IO;
+using Xamarin.Essentials;
+using Pickup.Mobile.Views;
 
 namespace Pickup.Mobile
 {
     public partial class App : Application
     {
+        public static IServiceProvider ServiceProvider { get; set; }
+
         public App()
         {
             InitializeComponent();
-
-            MainPage = new RegisterPage();
+            MainPage = ServiceProvider.GetService<RegisterPage>();
         }
 
         protected override void OnStart()

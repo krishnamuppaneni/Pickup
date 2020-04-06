@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Pickup.Api.Settings;
 using Pickup.Core.Models;
-using Pickup.Core.Models.V1.Request.Identity;
 using Pickup.Data;
 using Pickup.Data.Entities;
 using System;
@@ -28,15 +28,15 @@ namespace Pickup.Api.Services
             RoleManager<IdentityRole> roleManager,
             SecurityContext securityContext,
             IEmailService emailService,
-            ClientAppSettings client,
-            JwtSecurityTokenSettings jwtSettings)
+            IOptions<ClientAppSettings> client,
+            IOptions<JwtSecurityTokenSettings> jwtSettings)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _securityContext = securityContext;
             _emailService = emailService;
-            _client = client;
-            _jwtSettings = jwtSettings;
+            _client = client.Value;
+            _jwtSettings = jwtSettings.Value;
         }
 
         public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
