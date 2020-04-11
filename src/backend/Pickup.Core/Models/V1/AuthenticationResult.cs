@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Pickup.Core.Models.V1.Response;
+using System.Collections.Generic;
 
 namespace Pickup.Core.Models
 {
@@ -14,6 +15,6 @@ namespace Pickup.Core.Models
 
         public bool? TwoFactorEnabled { get; set; }
 
-        public IEnumerable<string> Errors { get; set; }
+        public List<ErrorModel> Errors { get; set; } = new List<ErrorModel>();
     }
 }

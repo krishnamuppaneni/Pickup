@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Pickup.Api.Infrastructure.Helpers;
 using Pickup.Api.Settings;
 using Pickup.Core.Models;
+using Pickup.Core.Models.V1.Response;
 using Pickup.Data;
 using Pickup.Data.Entities;
 using System;
@@ -58,9 +60,9 @@ namespace Pickup.Api.Services
             {
                 if (user.LockoutEnabled)
                 {
-                    return new AuthenticationResult
+                    return new AuthenticationResult()
                     {
-                        Errors = new[] { "This account has been locked." }
+                        Errors = ErrorHelper.CreateErrorList("This account has been locked.")
                     };
                 }
 
@@ -84,13 +86,13 @@ namespace Pickup.Api.Services
                 {
                     return new AuthenticationResult
                     {
-                        Errors = new[] { "Invalid credentials." }
+                        Errors = ErrorHelper.CreateErrorList("Invalid credentials.")
                     };
                 }
             }
             return new AuthenticationResult
             {
-                Errors = new[] { "Invalid credentials." }
+                Errors = ErrorHelper.CreateErrorList("Invalid credentials.")
             };
 
         }
@@ -101,7 +103,7 @@ namespace Pickup.Api.Services
                 ? await GenerateAuthenticationResultForUserAsync(user)
                 : new AuthenticationResult
                 {
-                    Errors = new[] { "Unable to verify authenticator code." }
+                    Errors = ErrorHelper.CreateErrorList("Unable to verify authenticator code.")
                 };
         }
 
@@ -119,7 +121,7 @@ namespace Pickup.Api.Services
             }
             return new AuthenticationResult()
             {
-                Errors = result.Errors.Select(e => e.Description)
+                Errors = ErrorHelper.CreateErrorList(result.Errors)
             };
         }
 

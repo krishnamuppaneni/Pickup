@@ -11,6 +11,6 @@ namespace Pickup.Mobile.Services.Api
     public interface IAuthApi
     {
         [Post("/api/v1/auth/register")]
-        public Task<TokenResponse> RegisterAsync([Body] RegisterRequest registerRequest);
+        public Task<ApiResponse<TokenResponse>> RegisterAsync([Body] RegisterRequest registerRequest);
     }
 }

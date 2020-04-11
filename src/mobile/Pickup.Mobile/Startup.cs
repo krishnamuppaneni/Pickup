@@ -58,7 +58,7 @@ namespace Pickup.Mobile
             services.AddTransient<RegisterViewModel>();
 
             //Pages
-            services.AddTransient<RegisterPage>();           
+            services.AddTransient<RegisterPage>();
 
             services.AddSingleton<App>();
         }
@@ -71,10 +71,8 @@ namespace Pickup.Mobile
             {
                 var full = Path.Combine(location, filename);
 
-                using (var stream = File.Create(full))
-                {
-                    resFilestream.CopyTo(stream);
-                }
+                using var stream = File.Create(full);
+                resFilestream.CopyTo(stream);
             }
 
         }

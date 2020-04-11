@@ -3,19 +3,62 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviors="clr-namespace:Pickup.Mobile.Behaviors"
+             xmlns:converters="clr-namespace:Pickup.Mobile.Converters"
              mc:Ignorable="d"             
              x:Class="Pickup.Mobile.Views.RegisterPage" 
              Visual="Material"
              BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringToBooleanConverter x:Key="StringToBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid Margin="20,50">
             <StackLayout Orientation="Vertical">
-                <Entry Placeholder="Email" Text="{Binding RegisterRequest.Email}"/>
-                <Entry Placeholder="First Name"/>
-                <Entry Placeholder="Last Name"/>
-                <Entry Placeholder="Password" IsPassword="True"/>
-                <Entry Placeholder="Birthdate"/>
-                <Button Text="Register" Command="{Binding Register}" BackgroundColor="#52C4B9" HeightRequest="50" VerticalOptions="EndAndExpand"/>
+                <Entry Placeholder="Email" Text="{Binding RegisterModel.Email}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="Email"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="{Binding RegisterModel.Errors[Email]}" TextColor="{DynamicResource ErrorTextColor}"  
+                       IsVisible="{Binding RegisterModel.Errors[Email], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
+
+                <Entry Placeholder="First Name" Text="{Binding RegisterModel.FirstName}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="FirstName"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="{Binding RegisterModel.Errors[FirstName]}" TextColor="{DynamicResource ErrorTextColor}"  
+                       IsVisible="{Binding RegisterModel.Errors[FirstName], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
+
+                <Entry Placeholder="Last Name" Text="{Binding RegisterModel.LastName}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="LastName"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="{Binding RegisterModel.Errors[LastName]}" TextColor="{DynamicResource ErrorTextColor}"  
+                       IsVisible="{Binding RegisterModel.Errors[LastName], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
+
+                <Entry Placeholder="Password" IsPassword="True" Text="{Binding RegisterModel.Password}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="Password"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="{Binding RegisterModel.Errors[Password]}" TextColor="{DynamicResource ErrorTextColor}"  
+                       IsVisible="{Binding RegisterModel.Errors[Password], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
+
+                <Entry Placeholder="Birthdate" Text="{Binding RegisterModel.BirthDate}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="BirthDate"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="{Binding RegisterModel.Errors[Birthdate]}" TextColor="{DynamicResource ErrorTextColor}"  
+                       IsVisible="{Binding RegisterModel.Errors[Birthdate], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
+
+                <Button Text="Register" Command="{Binding RegisterCommand}" BackgroundColor="{DynamicResource PrimaryColor}" 
+                        HeightRequest="50" VerticalOptions="EndAndExpand" IsEnabled="{Binding IsRegisterAllowed}"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

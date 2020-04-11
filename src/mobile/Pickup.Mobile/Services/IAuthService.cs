@@ -1,5 +1,6 @@
 ﻿using Pickup.Core.Models.V1.Request.Identity;
 using Pickup.Core.Models.V1.Response.Identity;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,6 @@ namespace Pickup.Mobile.Services
 {
     public interface IAuthService
     {
-        Task<TokenResponse> RegisterAsync(RegisterRequest request);
+        Task<ApiResponse<TokenResponse>> RegisterAsync(RegisterRequest request);
     }
 }

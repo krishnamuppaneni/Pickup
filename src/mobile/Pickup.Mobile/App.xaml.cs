@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using System.IO;
 using Xamarin.Essentials;
 using Pickup.Mobile.Views;
+using Acr.UserDialogs;
 
 namespace Pickup.Mobile
 {
