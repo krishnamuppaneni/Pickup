@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace Pickup.Api.Infrastructure.Helpers
 {
     public class ErrorHelper
-    {              public static List<ErrorModel> CreateErrorList(string message, string fieldName = null)
+    {
+        public static List<ErrorModel> CreateErrorList(string message, string fieldName = null)
         {
             List<ErrorModel> errors = new List<ErrorModel>();
             errors.Add(new ErrorModel { Message = message, FieldName = fieldName });
