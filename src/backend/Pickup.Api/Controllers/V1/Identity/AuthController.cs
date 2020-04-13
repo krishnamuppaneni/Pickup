@@ -140,6 +140,34 @@ namespace Pickup.Api.Controllers.V1.Identity
         }
 
         /// <summary>
+        /// Refresh token
+        /// </summary>
+        /// <param name="request">RefreshTokenRequest</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(typeof(TokenResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [Route("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
+        {
+            var result = await _authService.RefreshTokenAsync(request.Token, request.RefreshToken);
+
+            if (result.Success)
+            {
+                TokenResponse response = new TokenResponse()
+                {
+                    HasVerifiedEmail = result.HasVerifiedEmail,
+                    TFAEnabled = result.TwoFactorEnabled,
+                    Token = result.Token,
+                    RefreshToken = result.RefreshToken
+                };
+                return Ok(response);
+            }
+
+            return BadRequest(ErrorHelper.CreateErrorRespose(result.Errors));
+        }
+
+        /// <summary>
         /// Register an account
         /// </summary>
         /// <param name="request">RegisterRequest</param>

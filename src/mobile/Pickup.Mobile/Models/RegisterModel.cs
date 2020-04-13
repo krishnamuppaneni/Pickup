@@ -67,7 +67,6 @@ namespace Pickup.Mobile.Models
         }
 
         private DateTime _birthDate { get; set; }
-        [Required]
         [DataType(DataType.Date)]
         public DateTime BirthDate
         {

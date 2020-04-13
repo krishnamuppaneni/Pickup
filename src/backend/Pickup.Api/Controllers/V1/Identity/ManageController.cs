@@ -44,28 +44,6 @@ namespace Pickup.Api.Controllers.V1.Identity
         }
 
         /// <summary>
-        /// Get user information
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [ProducesResponseType(typeof(UserInfoResponse), 200)]
-        [Route("userInfo")]
-        public async Task<IActionResult> UserInfo()
-        {
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
-
-            var CreateUserRequest = new UserInfoResponse
-            {
-                Email = user.Email,
-                EmailConfirmed = user.EmailConfirmed,
-                LockoutEnabled = user.LockoutEnabled,
-                Roles = await _userManager.GetRolesAsync(user)
-            };
-
-            return Ok(CreateUserRequest);
-        }
-
-        /// <summary>
         /// Get TFA stats
         /// </summary>
         /// <returns></returns>
@@ -75,7 +53,7 @@ namespace Pickup.Api.Controllers.V1.Identity
         [Route("twoFactorAuthentication")]
         public async Task<IActionResult> TwoFactorAuthentication()
         {
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -100,7 +78,7 @@ namespace Pickup.Api.Controllers.V1.Identity
         [Route("enableAuthenticator")]
         public async Task<IActionResult> EnableAuthenticator()
         {
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -124,7 +102,7 @@ namespace Pickup.Api.Controllers.V1.Identity
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.Values.Select(x => x.Errors.FirstOrDefault().ErrorMessage));
 
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -155,7 +133,7 @@ namespace Pickup.Api.Controllers.V1.Identity
         [Route("sendVerificationEmail")]
         public async Task<IActionResult> SendVerificationEmail()
         {
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -181,7 +159,7 @@ namespace Pickup.Api.Controllers.V1.Identity
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -203,7 +181,7 @@ namespace Pickup.Api.Controllers.V1.Identity
         [Route("disableTfa")]
         public async Task<IActionResult> Disable2fa()
         {
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -225,7 +203,7 @@ namespace Pickup.Api.Controllers.V1.Identity
         [Route("enableAuthenticator")]
         public async Task<IActionResult> EnableAuthenticator([FromBody]EnableAuthenticatorResponse model)
         {
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -277,7 +255,7 @@ namespace Pickup.Api.Controllers.V1.Identity
         [Route("resetAuthenticator")]
         public async Task<IActionResult> ResetAuthenticator()
         {
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 
@@ -297,7 +275,7 @@ namespace Pickup.Api.Controllers.V1.Identity
         [Route("generateRecoveryCodes")]
         public async Task<IActionResult> GenerateRecoveryCodes()
         {
-            var user = await _userManager.FindByIdAsync(User.FindFirst("uid")?.Value);
+            var user = await _userManager.FindByIdAsync(User.FindFirst("id")?.Value);
             if (user == null)
                 return BadRequest(new string[] { "Could not find user!" });
 

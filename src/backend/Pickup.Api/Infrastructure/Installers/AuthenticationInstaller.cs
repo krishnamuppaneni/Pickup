@@ -11,6 +11,21 @@ namespace Pickup.Api.Infrastructure.Installers
     {
         public static void ConfigureService(IServiceCollection service, IConfiguration configuration)
         {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+
+                ValidIssuer = configuration["JwtSecurityToken:Issuer"],
+                ValidAudience = configuration["JwtSecurityToken:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSecurityToken:Key"]))
+            };
+
+            service.AddSingleton(tokenValidationParameters);
+
             service
                 .AddAuthentication(o =>
                 {
@@ -21,18 +36,7 @@ namespace Pickup.Api.Infrastructure.Installers
                 .AddJwtBearer(o =>
                 {
                     o.SaveToken = true;
-                    o.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero,
-
-                        ValidIssuer = configuration["JwtSecurityToken: Issuer"],
-                        ValidAudience = configuration["JwtSecurityToken:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSecurityToken:Key"]))
-                    };
+                    o.TokenValidationParameters = tokenValidationParameters;
                 });
         }
     }

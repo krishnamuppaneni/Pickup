@@ -10,7 +10,8 @@ namespace Pickup.Api.Infrastructure.Installers
     {
         public static void ConfigureService(IServiceCollection service)
         {
-            service.AddIdentity<User, IdentityRole>()
+            service.AddDefaultIdentity<User>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SecurityContext>()
                 .AddDefaultTokenProviders();
 

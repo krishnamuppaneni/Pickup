@@ -4,8 +4,6 @@ namespace Pickup.Core.Models.V1.Request.Identity
 {
     public class LoginRequest
     {
-        public string UserName { get; set; }
-
         [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]

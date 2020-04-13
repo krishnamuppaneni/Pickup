@@ -32,6 +32,13 @@
             <param name="request">LoginWith2faRequest</param>
             <returns></returns>
         </member>
+        <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.Refresh(Pickup.Core.Models.V1.Request.Identity.RefreshTokenRequest)">
+            <summary>
+            Refresh token
+            </summary>
+            <param name="request">RefreshTokenRequest</param>
+            <returns></returns>
+        </member>
         <member name="M:Pickup.Api.Controllers.V1.Identity.AuthController.RegisterAsync(Pickup.Core.Models.V1.Request.Identity.RegisterRequest)">
             <summary>
             Register an account
@@ -51,12 +58,6 @@
             Reset account password with reset token
             </summary>
             <param name="request">ReSetPasswordRequest</param>
-            <returns></returns>
-        </member>
-        <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.UserInfo">
-            <summary>
-            Get user information
-            </summary>
             <returns></returns>
         </member>
         <member name="M:Pickup.Api.Controllers.V1.Identity.ManageController.TwoFactorAuthentication">
@@ -147,15 +148,9 @@
         </member>
         <member name="M:Pickup.Api.Controllers.V1.Identity.UserController.Get">
             <summary>
-            Get all users
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Pickup.Api.Controllers.V1.Identity.UserController.Get(System.String)">
-            <summary>
             Get a user
             </summary>
-            <param name="Id"></param>
+            <param></param>
             <returns></returns>
         </member>
         <member name="M:Pickup.Api.Controllers.V1.Identity.UserController.Post(Pickup.Core.Models.V1.Request.Identity.CreateUserRequest)">

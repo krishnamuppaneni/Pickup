@@ -1,11 +1,11 @@
 ﻿using Acr.UserDialogs;
+using Microsoft.Extensions.DependencyInjection;
 using Pickup.Core.Models.V1.Request.Identity;
 using Pickup.Core.Models.V1.Response;
-using Pickup.Core.Models.V1.Response.Identity;
 using Pickup.Mobile.Models;
 using Pickup.Mobile.Services;
+using Pickup.Mobile.Views;
 using Refit;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,9 +18,8 @@ namespace Pickup.Mobile.ViewModels
         private readonly IAuthService _authService;
 
         public RegisterModel RegisterModel { get; set; }
-        public ICommand RegisterCommand { get; }
+        public ICommand RegisterCommand { get; protected set; }
         public ICommand EntryUnfocused { get; protected set; }
-        public bool IsBusy { get; set; }
 
         private bool _IsRegisterAllowed;
         public bool IsRegisterAllowed
@@ -36,14 +35,14 @@ namespace Pickup.Mobile.ViewModels
         public RegisterViewModel(IAuthService authService)
         {
             _authService = authService;
-            IsBusy = true;
+
             RegisterModel = new RegisterModel();
 
             EntryUnfocused = new Command<string>((propertyName) =>
             {
                 EntryUnfocusedCommand(propertyName, RegisterModel);
             });
-            RegisterCommand = new Command(execute: async () => await Register(RegisterModel));
+            RegisterCommand = new Command(execute: async () => await RegisterAsync(RegisterModel));
         }
 
         private void EntryUnfocusedCommand(string propertyName, BaseModel model)
@@ -52,7 +51,7 @@ namespace Pickup.Mobile.ViewModels
             IsRegisterAllowed = !model.HasErrors;
         }
 
-        private async Task Register(RegisterModel model)
+        private async Task RegisterAsync(RegisterModel model)
         {
             UserDialogs.Instance.ShowLoading("Signing up...");
             model.Validate();
@@ -67,11 +66,15 @@ namespace Pickup.Mobile.ViewModels
                     FirstName = model.FirstName,
                     LastName = model.LastName
                 };
-                ApiResponse<TokenResponse> response = await _authService.RegisterAsync(request);
-                if (!response.IsSuccessStatusCode)
+                try
                 {
-                    ErrorResponse errorResponse = await response.Error.GetContentAsAsync<ErrorResponse>();
-                    await UserDialogs.Instance.AlertAsync(errorResponse.Errors.FirstOrDefault().Message, "Please try again!");
+                    await _authService.RegisterAsync(request);
+                    App.Current.MainPage = new NavigationPage(App.ServiceProvider.GetService<MainPage>());
+                }
+                catch (ApiException ex)
+                {
+                    ErrorResponse errorResponse = await ex.GetContentAsAsync<ErrorResponse>();
+                    await UserDialogs.Instance.AlertAsync(errorResponse.Errors.FirstOrDefault().Message, "Error");
                 }
             }
             UserDialogs.Instance.HideLoading();

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviors="clr-namespace:Pickup.Mobile.Behaviors"
+             xmlns:converters="clr-namespace:Pickup.Mobile.Converters"
+             mc:Ignorable="d"
+             x:Class="Pickup.Mobile.Views.LoginPage"
+             Visual="Material"
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringToBooleanConverter x:Key="StringToBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Margin="20">
+            <Label Text="Sign In" TextColor="{DynamicResource PrimaryColor}" HorizontalOptions="CenterAndExpand" 
+                   VerticalOptions="Center"
+                   FontSize="34" Margin="0,10,0,0"/>
+            <Image Source="login.png" VerticalOptions="Start"/>
+            <Entry Placeholder="Email" Text="{Binding LoginModel.Email}">
+                <Entry.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="Email"/>
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding LoginModel.Errors[Email]}" TextColor="{DynamicResource ErrorTextColor}"  
+                       IsVisible="{Binding LoginModel.Errors[Email], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
+
+            <Entry Placeholder="Password" IsPassword="True" Text="{Binding LoginModel.Password}">
+                <Entry.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="Password"/>
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding LoginModel.Errors[Password]}" TextColor="{DynamicResource ErrorTextColor}"  
+                       IsVisible="{Binding LoginModel.Errors[Password], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
+
+            <Button Text="Log In" Command="{Binding LoginCommand}" BackgroundColor="{DynamicResource SecondaryColor}" 
+                        HeightRequest="50" VerticalOptions="EndAndExpand" IsEnabled="{Binding IsLoginAllowed}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

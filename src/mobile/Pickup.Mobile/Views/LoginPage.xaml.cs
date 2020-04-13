@@ -5,12 +5,12 @@ using Xamarin.Forms.Xaml;
 namespace Pickup.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class WelcomePage : ContentPage
+    public partial class LoginPage : ContentPage
     {
-        public WelcomePage()
+        public LoginPage()
         {
             InitializeComponent();
-            BindingContext = App.ServiceProvider.GetService<WelcomeViewModel>();
+            BindingContext = App.ServiceProvider.GetService<LoginViewModel>();        
         }
     }
 }

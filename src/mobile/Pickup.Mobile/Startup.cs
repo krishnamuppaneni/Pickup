@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pickup.Core.Models.V1.Request.Identity;
+using Pickup.Mobile.Helpers;
 using Pickup.Mobile.Services;
 using Pickup.Mobile.Services.Api;
 using Pickup.Mobile.Settings;
@@ -53,12 +54,18 @@ namespace Pickup.Mobile
 
             // Services            
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IUserService, UserService>();
 
             // ViewModels
+            services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterViewModel>();
+            services.AddTransient<WelcomeViewModel>();
 
             //Pages
+            services.AddTransient<LoginPage>();
+            services.AddTransient<MainPage>();
             services.AddTransient<RegisterPage>();
+            services.AddTransient<WelcomePage>();
 
             services.AddSingleton<App>();
         }

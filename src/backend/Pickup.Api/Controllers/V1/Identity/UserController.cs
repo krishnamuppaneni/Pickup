@@ -1,55 +1,66 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Pickup.Core.Models.V1.Request.Identity;
+using Pickup.Core.Models.V1.Response;
+using Pickup.Core.Models.V1.Response.User;
 using Pickup.Data.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Pickup.Api.Controllers.V1.Identity
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Produces("application/json")]
     [Route("api/v1/user")]
     public class UserController : Controller
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserController(
+        public UserController(IHttpContextAccessor httpContextAccessor,
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager
             )
         {
+            _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
             _roleManager = roleManager;
         }
 
         /// <summary>
-        /// Get all users
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<User>), 200)]
-        [Route("get")]
-        public IActionResult Get() => Ok(_userManager.Users);
-
-        /// <summary>
         /// Get a user
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param></param>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(typeof(User), 200)]
-        [ProducesResponseType(typeof(IEnumerable<string>), 400)]
-        [Route("get/{Id}")]
-        public IActionResult Get(string Id)
+        [ProducesResponseType(typeof(UserInfoResponse), 200)]
+        [ProducesResponseType(401)]
+        [Route("get")]
+        public async Task<IActionResult> Get()
         {
-            if (string.IsNullOrEmpty(Id))
-                return BadRequest(new string[] { "Empty parameter!" });
+            User user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
 
-            return Ok(_userManager.Users.Where(user => user.Id == Id));
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            UserInfoResponse response = new UserInfoResponse()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return Ok(response);
         }
 
         /// <summary>

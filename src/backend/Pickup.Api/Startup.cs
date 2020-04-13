@@ -55,6 +55,8 @@ namespace Pickup
             // Data
             services.AddDbContextPool<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DataContextConnection"], x => x.UseNetTopologySuite()));
 
+            services.AddHttpContextAccessor();
+
             services.AddControllers();
         }
 
@@ -67,6 +69,7 @@ namespace Pickup
             }
             else
             {
+                app.UseHsts();
                 app.UseErrorHandlingMiddleware();
             }
 
@@ -76,8 +79,6 @@ namespace Pickup
 
             app.UseAuthentication();
 
-            app.UseAuthorization();
-
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -85,10 +86,7 @@ namespace Pickup
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API V1");
                 c.RoutePrefix = "";
             });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseMvc();
         }
     }
 }

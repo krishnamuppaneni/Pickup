@@ -5,28 +5,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Pickup.Mobile.Views.WelcomePage"
-             BackgroundColor="#364960"
-             Visual="Material">
+             Visual="Material"
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <Grid Margin="20,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Label Text="Pickup" TextColor="White" HorizontalOptions="Center" 
-                   VerticalOptions="Center"
-                   FontSize="50" />
-            <Grid Grid.Row="1" 
-                  VerticalOptions="EndAndExpand"
-                  Margin="0,0,0,80">
+        <StackLayout Margin="20">
+            <Label Text="Pickup" TextColor="{DynamicResource PrimaryColor}" HorizontalOptions="Center" 
+                   VerticalOptions="CenterAndExpand"
+                   FontSize="60" Margin="0,10,0,0"/>
+            <Image Source="shopping.png" Aspect="AspectFit" VerticalOptions="CenterAndExpand"/>
+            <Grid VerticalOptions="CenterAndExpand"
+                  Margin="0,0,0,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Button Text="Sign Up" FontAttributes="Bold" BackgroundColor="#52C4B9"/>
-                <Button Text="I Already Have An Account" Grid.Row="1" />
+                <Button Text="Sign Up" FontAttributes="Bold" BackgroundColor="#52C4B9" Command="{Binding RegisterCommand}" HeightRequest="50"/>
+                <Button Text="I Already Have An Account" Margin="0,5,0,0" Grid.Row="1" Command="{Binding LoginCommand}" HeightRequest="50"/>
             </Grid>
-        </Grid>
+        </StackLayout>
         
     </ContentPage.Content>
 </ContentPage>

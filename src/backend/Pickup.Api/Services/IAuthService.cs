@@ -11,6 +11,7 @@ namespace Pickup.Api.Services
         Task ForgotPasswordAsync(User user);
         Task<AuthenticationResult> LoginAsync(User user, string password);
         Task<AuthenticationResult> LoginWith2FaAsync(User user, string twoFactorCode);
+        Task<AuthenticationResult> RefreshTokenAsync(string token, string refreshToken);
         Task<AuthenticationResult> RegisterAsync(User user, string password);
         Task ResendVerificationEmailAsync(User user);
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);

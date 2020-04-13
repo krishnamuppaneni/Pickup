@@ -8,58 +8,53 @@
              mc:Ignorable="d"             
              x:Class="Pickup.Mobile.Views.RegisterPage" 
              Visual="Material"
-             BackgroundColor="White">
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:StringToBooleanConverter x:Key="StringToBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid Margin="20,50">
-            <StackLayout Orientation="Vertical">
-                <Entry Placeholder="Email" Text="{Binding RegisterModel.Email}">
-                    <Entry.Behaviors>
-                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="Email"/>
-                    </Entry.Behaviors>
-                </Entry>
-                <Label Text="{Binding RegisterModel.Errors[Email]}" TextColor="{DynamicResource ErrorTextColor}"  
+        <StackLayout Orientation="Vertical" Margin="20">
+            <Label Text="Create Account" TextColor="{DynamicResource PrimaryColor}" HorizontalOptions="CenterAndExpand" 
+                   VerticalOptions="Center"
+                   FontSize="34" Margin="0,10,0,0"/>
+            <Image Source="register.png" VerticalOptions="Start"/>
+            <Entry Placeholder="Email" Text="{Binding RegisterModel.Email}">
+                <Entry.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="Email"/>
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding RegisterModel.Errors[Email]}" TextColor="{DynamicResource ErrorTextColor}"  
                        IsVisible="{Binding RegisterModel.Errors[Email], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
 
-                <Entry Placeholder="First Name" Text="{Binding RegisterModel.FirstName}">
-                    <Entry.Behaviors>
-                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="FirstName"/>
-                    </Entry.Behaviors>
-                </Entry>
-                <Label Text="{Binding RegisterModel.Errors[FirstName]}" TextColor="{DynamicResource ErrorTextColor}"  
+            <Entry Placeholder="First Name" Text="{Binding RegisterModel.FirstName}">
+                <Entry.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="FirstName"/>
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding RegisterModel.Errors[FirstName]}" TextColor="{DynamicResource ErrorTextColor}"  
                        IsVisible="{Binding RegisterModel.Errors[FirstName], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
 
-                <Entry Placeholder="Last Name" Text="{Binding RegisterModel.LastName}">
-                    <Entry.Behaviors>
-                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="LastName"/>
-                    </Entry.Behaviors>
-                </Entry>
-                <Label Text="{Binding RegisterModel.Errors[LastName]}" TextColor="{DynamicResource ErrorTextColor}"  
+            <Entry Placeholder="Last Name" Text="{Binding RegisterModel.LastName}">
+                <Entry.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="LastName"/>
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding RegisterModel.Errors[LastName]}" TextColor="{DynamicResource ErrorTextColor}"  
                        IsVisible="{Binding RegisterModel.Errors[LastName], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
 
-                <Entry Placeholder="Password" IsPassword="True" Text="{Binding RegisterModel.Password}">
-                    <Entry.Behaviors>
-                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="Password"/>
-                    </Entry.Behaviors>
-                </Entry>
-                <Label Text="{Binding RegisterModel.Errors[Password]}" TextColor="{DynamicResource ErrorTextColor}"  
+            <Entry Placeholder="Password" IsPassword="True" Text="{Binding RegisterModel.Password}">
+                <Entry.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="Password"/>
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding RegisterModel.Errors[Password]}" TextColor="{DynamicResource ErrorTextColor}"  
                        IsVisible="{Binding RegisterModel.Errors[Password], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
 
-                <Entry Placeholder="Birthdate" Text="{Binding RegisterModel.BirthDate}">
-                    <Entry.Behaviors>
-                        <behaviors:EventToCommandBehavior EventName="Unfocused" Command="{Binding EntryUnfocused}" CommandParameter="BirthDate"/>
-                    </Entry.Behaviors>
-                </Entry>
-                <Label Text="{Binding RegisterModel.Errors[Birthdate]}" TextColor="{DynamicResource ErrorTextColor}"  
-                       IsVisible="{Binding RegisterModel.Errors[Birthdate], Converter={StaticResource StringToBooleanConverter}, FallbackValue=False}"/>
-
-                <Button Text="Register" Command="{Binding RegisterCommand}" BackgroundColor="{DynamicResource PrimaryColor}" 
+            <Button Text="Register" Command="{Binding RegisterCommand}" BackgroundColor="{DynamicResource SecondaryColor}" 
                         HeightRequest="50" VerticalOptions="EndAndExpand" IsEnabled="{Binding IsRegisterAllowed}"/>
-            </StackLayout>
-        </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
